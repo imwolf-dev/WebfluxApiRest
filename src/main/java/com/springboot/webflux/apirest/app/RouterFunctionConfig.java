@@ -25,7 +25,7 @@ public class RouterFunctionConfig {
         // para definir una sola ruta
         //return RouterFunctions.route(RequestPredicates.GET("/api/v2/productos"), request -> {
 
-
+        /* 
         // para definir MAS de una ruta usar OR
         return RouterFunctions
             .route(RequestPredicates.GET("/api/v2/productos")
@@ -34,7 +34,16 @@ public class RouterFunctionConfig {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(service.findAll(), Producto.class);
             });
-        
-            
+        */
+
+        // usando HANDLER
+        // para definir MAS de una ruta usar OR
+        return RouterFunctions
+            .route(RequestPredicates.GET("/api/v4/productos")
+            .or(RequestPredicates.GET("/api/v5/productos")), request -> {
+                return handler.listar(request);
+            });
+
+
     }
 }
