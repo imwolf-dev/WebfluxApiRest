@@ -40,10 +40,18 @@ public class RouterFunctionConfig {
         // para definir MAS de una ruta usar OR
         return RouterFunctions
             .route(RequestPredicates.GET("/api/v4/productos")
-            .or(RequestPredicates.GET("/api/v5/productos")), request -> {
-                return handler.listar(request);
-            });
-
-
+            .or(RequestPredicates.GET("/api/v5/productos")), 
+                request -> {
+                    return handler.listar(request);
+                }
+            )
+            .andRoute(
+                RequestPredicates.GET("/api/v6/productos"),
+                handler::listar // forma funcional
+            )
+            .andRoute(
+                RequestPredicates.GET("/api/v2/productos/{id}"), handler::ver
+            )
+            ;
     }
 }
