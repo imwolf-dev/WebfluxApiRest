@@ -1,5 +1,8 @@
 package com.springboot.webflux.apirest.app.handler;
 
+import java.net.URI;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -37,6 +40,26 @@ public class ProductoHandler {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .body(BodyInserters.fromValue(p)))
                                 .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
+
+    public Mono<ServerResponse> crear(ServerRequest request){
+
+        Mono<Producto> producto = request.bodyToMono(Producto.class);
+
+        return producto
+            .flatMap(p -> {
+                if(p.getCreateAt() == null){
+                    p.setCreateAt(new Date());
+                }
+                return service.save(p);
+            })
+            .flatMap(p -> {
+                return ServerResponse
+                        .created(URI.create("/api/v2/productos/".concat(p.getId())))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromValue(p));
+            });
     }
 
 }

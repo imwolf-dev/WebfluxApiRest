@@ -52,6 +52,9 @@ public class RouterFunctionConfig {
             .andRoute(
                 RequestPredicates.GET("/api/v2/productos/{id}"), handler::ver
             )
+            .andRoute(
+                RequestPredicates.POST("/api/v2/productos"), handler::crear
+            )
             ;
     }
 }
