@@ -58,6 +58,9 @@ public class RouterFunctionConfig {
             .andRoute(
                 RequestPredicates.PUT("/api/v2/productos/{id}"), handler::editar
             )
+            .andRoute(
+                RequestPredicates.DELETE("/api/v2/productos/{id}"), handler::borrar
+            )
             ;
     }
 }

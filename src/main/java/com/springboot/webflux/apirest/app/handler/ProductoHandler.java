@@ -87,4 +87,17 @@ public class ProductoHandler {
             .switchIfEmpty(ServerResponse.notFound().build());
     }
 
+
+    public Mono<ServerResponse> borrar(ServerRequest request){
+
+        String id = request.pathVariable("id");
+        Mono<Producto> productoDb = service.findById(id);
+
+        return productoDb
+            .flatMap(p ->
+                        service.delete(p).then(ServerResponse.noContent().build())
+            )
+            .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
 }
